@@ -44,7 +44,8 @@ LABEL maintainer="Bjoern Kimminich <bjoern.kimminich@owasp.org>" \
     org.opencontainers.image.revision=$VCS_REF \
     org.opencontainers.image.created=$BUILD_DATE
 WORKDIR /juice-shop
-COPY --from=installer --chown=65532:0 /juice-shop .
+# 실행 파일에 대해 쓰기 권한을 부여하지 않도록 수정
+COPY --from=installer --chown=65532:0 --chmod=755 /juice-shop .
 COPY --chown=65532:0 --from=libxmljs-builder /juice-shop/node_modules/libxmljs ./node_modules/libxmljs
 USER 65532
 EXPOSE 3000
